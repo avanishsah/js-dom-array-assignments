@@ -33,3 +33,50 @@ function renderInStockProducts(){
     productList.innerHTML = productItems.join('');
 
 }
+
+//HARD Tasks
+//1. CLearing any exisiting content
+
+const productLists = document.getElementById('product-list');
+productLists.innerHTML = '';
+
+//2 . Iterate over entire array and rest processes
+
+products.forEach(product =>{
+    //3. Create li element
+    const li = document.createElement('li');
+
+    //4. Create and append h3 & p
+    const h3 = document.createElement('h3');
+    h3.textContent = product.name;
+    li.appendChild(h3);
+
+    const p = document.createElement('p');
+    p.textContent = `$${product.price}`;
+    li.appendChild(p);
+
+    //5. Conditionally adding a class
+    if(!product.inStock){
+        li.classList.add('out-of-stock')
+    }
+    // Add category class
+
+    const categoryClass = `category-${product.category.toLocaleLowerCase().replace(' ', '-')}`;
+    li.classList.add(categoryClass);
+
+    //6. Append to the list
+    productLists.appendChild(li);
+});
+
+    //7.BONUS
+    const totalVal = products
+        .filter(product => product.inStock)
+        .reduce((sum, product) => sum + product.price, 0);
+
+    // Total Display element
+    const totaDiv = document.createElement('div');
+    totaDiv.className = 'total-value';
+    totalDiv.textContent = `Total value In Stock is $${totalVal}`;
+
+    //Inserting after the product list
+    productLists.parentNode.insertBefore(totalDiv, productLists.nextSibling);
